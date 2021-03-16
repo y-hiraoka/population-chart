@@ -4,13 +4,15 @@ import { Prefecture, Population } from "./entites";
 export class ResasApiService {
   private endpoint = "https://opendata.resas-portal.go.jp";
 
-  constructor(private apiKey: string) { }
+  constructor(private apiKey: string) {}
 
   get = async (apiPath: string, params?: URLSearchParams): Promise<any> => {
-    const url = params ? `${this.endpoint}/${apiPath}?${params}` : `${this.endpoint}/${apiPath}`;
+    const url = params
+      ? `${this.endpoint}/${apiPath}?${params}`
+      : `${this.endpoint}/${apiPath}`;
 
     const response = await fetch(url, { headers: { "X-API-KEY": this.apiKey } });
-    
+
     if (response.status >= 500 && response.status < 600) {
       throw new ResasApiError(response.status, "RESAS Server Error");
     }
@@ -34,32 +36,38 @@ export class ResasApiService {
     }
 
     return resObj;
-  }
+  };
 
   prefectures = async (): Promise<Prefecture[]> => {
     const response = await this.get("api/v1/prefectures");
     return response.result;
-  }
+  };
 
   populationCompositionPerYear = async (
     prefCode: number,
     cityCode: string = "-",
-    addArea?: { prefCode: number, cityCode?: string }[]): Promise<Population> => {
+    addArea?: { prefCode: number; cityCode?: string }[],
+  ): Promise<Population> => {
     const params = new URLSearchParams();
     params.append("prefCode", String(prefCode));
     params.append("cityCode", cityCode);
 
     if (addArea) {
-      params.append("addArea", addArea.map(area => {
-        if (area.cityCode) {
-          return `${area.prefCode}_${area.cityCode}`;
-        } else {
-          return `${area.prefCode}_`;
-        }
-      }).join(","));
+      params.append(
+        "addArea",
+        addArea
+          .map(area => {
+            if (area.cityCode) {
+              return `${area.prefCode}_${area.cityCode}`;
+            } else {
+              return `${area.prefCode}_`;
+            }
+          })
+          .join(","),
+      );
     }
 
     const response = await this.get("api/v1/population/composition/perYear", params);
     return response.result;
-  }
+  };
 }
