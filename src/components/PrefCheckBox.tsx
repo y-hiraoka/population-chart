@@ -1,27 +1,32 @@
-import React from "react";
+import { memo } from "react";
+import { usePrefecture } from "../state/prefectures";
+import {
+  usePrefCodeIsSelected,
+  useTogglePrefCodeSelected,
+} from "../state/selectedPrefCodes";
 import "./PrefCheckBox.css";
 
 interface Props {
-  className?: string;
-  checked: boolean;
-  prefName: string;
-  onClick: () => void;
+  prefCode: number;
 }
 
-export const PrefCheckBox: React.FC<Props> = props => {
-  const rootClassName = props.checked
-    ? `PrefCheckBox-root PrefCheckBox-root-checked ${props.className}`
-    : `PrefCheckBox-root ${props.className}`;
+export const PrefCheckBox: React.VFC<Props> = memo(({ prefCode }) => {
+  const prefecture = usePrefecture(prefCode);
+  const toggle = useTogglePrefCodeSelected(prefCode);
+  const selected = usePrefCodeIsSelected(prefCode);
 
   return (
-    <div className={rootClassName} onClick={props.onClick}>
+    <div
+      className={"PrefCheckBox-root"}
+      data-is-selected={selected}
+      onClick={toggle}>
       <input
         className="PrefCheckBox-checkbox"
         type="checkbox"
-        checked={props.checked}
+        checked={selected}
         readOnly
       />
-      <span>{props.prefName}</span>
+      <span>{prefecture.prefName}</span>
     </div>
   );
-};
+});

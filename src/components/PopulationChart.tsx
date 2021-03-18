@@ -1,4 +1,3 @@
-import React from "react";
 import {
   LineChart,
   Line,
@@ -9,14 +8,16 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { useChartData } from "../state/chartData";
 import { randomColor } from "../utils/randomColor";
-import { ChartData } from "../logics/entites";
 
-export const PopulationChart: React.FC<{ data: ChartData[] }> = props => {
+export const PopulationChart: React.VFC = () => {
+  const chartData = useChartData();
+
   return (
     <ResponsiveContainer width="95%" aspect={1.6}>
       <LineChart
-        data={props.data}
+        data={chartData}
         margin={{
           top: 5,
           right: 30,
@@ -28,8 +29,8 @@ export const PopulationChart: React.FC<{ data: ChartData[] }> = props => {
         <YAxis yAxisId="left" />
         <Tooltip />
         <Legend wrapperStyle={{ fontSize: "calc(6px + 2vmin)" }} />
-        {props.data[0] &&
-          Object.keys(props.data[0]).map(
+        {chartData[0] &&
+          Object.keys(chartData[0]).map(
             d =>
               d !== "year" && (
                 <Line

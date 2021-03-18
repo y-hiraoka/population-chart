@@ -1,5 +1,6 @@
 .PrefCheckBox-root {
   display: inline-block;
+  width: 100%;
   min-width: 90px;
   padding: 2px 12px;
   border-radius: 8px;
@@ -7,8 +8,9 @@
   cursor: pointer;
 }
 
-.PrefCheckBox-root-checked {
+.PrefCheckBox-root[data-is-selected="true"] {
   color: white;
+  font-weight: bold;
   background-color: #2ccf9e;
 }
 

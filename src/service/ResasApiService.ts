@@ -1,5 +1,5 @@
 import { ResasApiError } from "./ResasApiError";
-import { Prefecture, Population } from "./entites";
+import { Prefecture, Population } from "../models";
 
 export class ResasApiService {
   private endpoint = "https://opendata.resas-portal.go.jp";
