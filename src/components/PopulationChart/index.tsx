@@ -8,8 +8,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { useChartData } from "../state/chartData";
-import { randomColor } from "../utils/randomColor";
+import { useChartData } from "../../state/chartData";
+import { randomColor } from "../../utils/randomColor";
 
 export const PopulationChart: React.VFC = () => {
   const chartData = useChartData();
