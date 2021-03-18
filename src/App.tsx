@@ -19,6 +19,7 @@ const App: React.FC = () => {
             <PopulationChart />
           </Suspense>
         </div>
+        <footer>出典：RESAS（地域経済分析システム）</footer>
       </Suspense>
     </div>
   );
